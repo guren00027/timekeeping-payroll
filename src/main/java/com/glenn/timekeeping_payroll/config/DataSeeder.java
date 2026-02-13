@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import java.util.Set;
 public class DataSeeder {
 
     @Bean
-    CommandLineRunner initData(RoleRepository roleRepo, UserRepository userRepo) {
+    CommandLineRunner initData(RoleRepository roleRepo, UserRepository userRepo, PasswordEncoder passwordEncoder) {
         return args -> {
             Role hrRole = roleRepo.findByName("ROLE_HR")
                     .orElseGet(() -> roleRepo.save(new Role(null, "ROLE_HR")));
@@ -32,6 +33,17 @@ public class DataSeeder {
                         hr.setEnabled(true);
                         hr.setRoles(Set.of(hrRole));
                         return userRepo.save(hr);
+                    });
+
+            // Create default EMPLOYEE user (only if not exists)
+            userRepo.findByUsername("employee1")
+                    .orElseGet(() -> {
+                        User emp = new User();
+                        emp.setUsername("employee1");
+                        emp.setPassword(passwordEncoder.encode("Emp@12345"));
+                        emp.setEnabled(true);
+                        emp.setRoles(Set.of(employeeRole));
+                        return userRepo.save(emp);
                     });
         };
     }
