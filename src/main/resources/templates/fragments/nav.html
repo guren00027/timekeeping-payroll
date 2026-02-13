@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div class="nav">
+    <div class="nav-inner">
+        <div class="nav-left">
+            <a class="nav-link" th:href="@{/app}">Employee</a>
+            <a class="nav-link" th:href="@{/hr}" sec:authorize="hasRole('HR')">HR</a>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <button class="btn secondary" type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

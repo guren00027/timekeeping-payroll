@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HR Dashboard</title>
+    <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+<div th:replace="~{fragments/nav :: body}"></div>
+<div class="container">
+    <h1>HR Dashboard</h1>
+
+    <div class="card">
+        <div class="row">
+            <div>
+                <div class="label">Select Date</div>
+                <input id="dateInput" type="date" style="padding:10px;width:220px;border:1px solid var(--border);border-radius:10px;">
+            </div>
+        </div>
+
+        <div class="actions" style="margin-top:12px;">
+            <button id="btnLoad" class="btn primary">Load Attendance</button>
+        </div>
+
+        <div id="hrMessage" class="message"></div>
+
+        <div style="margin-top:16px; overflow:auto;">
+            <table id="tbl" style="width:100%; border-collapse:collapse;">
+                <thead>
+                <tr style="text-align:left; color: var(--muted);">
+                    <th style="padding:10px; border-bottom:1px solid var(--border);">Employee</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border);">Time In</th>
+                    <th style="padding:10px; border-bottom:1px solid var(--border);">Time Out</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="/js/hr.js"></script>
+</body>
+</html>

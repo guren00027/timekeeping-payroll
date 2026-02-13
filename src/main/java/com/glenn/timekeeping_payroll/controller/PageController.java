@@ -15,5 +15,10 @@ public class PageController {
     public String app() {
         return "app";
     }
+
+    @GetMapping("/hr")
+    public String hrPage() {
+        return "hr";
+    }
 }
 

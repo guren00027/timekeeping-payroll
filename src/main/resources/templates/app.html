@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Timekeeping</title>
-    <form method="post" action="/logout" style="text-align:right; margin-bottom:10px;">
-        <button class="btn secondary" type="submit">Logout</button>
-    </form>
     <link rel="stylesheet" th:href="@{/css/app.css}" />
 </head>
 <body>
+<div th:replace="~{fragments/nav :: body}"></div>
 <div class="container">
     <h1>Timekeeping</h1>
 

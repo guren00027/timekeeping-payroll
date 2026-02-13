@@ -94,3 +94,36 @@ h1{ margin-bottom: 16px; }
   min-width: 180px;
   flex: 1;
 }
+
+.nav{
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner{
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+}
+
+.nav-left{
+  display:flex;
+  gap: 12px;
+  align-items:center;
+}
+
+.nav-link{
+  text-decoration:none;
+  color: var(--primary-dark);
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.nav-link:hover{
+  background: #E7F7EF;
+}
