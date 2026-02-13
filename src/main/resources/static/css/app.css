@@ -75,3 +75,22 @@ h1{ margin-bottom: 16px; }
   color: var(--primary-dark);
   font-weight: 600;
 }
+
+@media (max-width: 520px) {
+  .actions {
+    flex-direction: column;
+  }
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .container { margin: 24px auto; }
+  .card { padding: 16px; }
+}
+
+.row > div {
+  min-width: 180px;
+  flex: 1;
+}
