@@ -27,6 +27,7 @@
 
         <div style="margin-top:16px; overflow:auto;">
             <table id="tbl" style="width:100%; border-collapse:collapse;">
+                <th style="padding:10px; border-bottom:1px solid var(--border);">Worked Hours</th>
                 <thead>
                 <tr style="text-align:left; color: var(--muted);">
                     <th style="padding:10px; border-bottom:1px solid var(--border);">Employee</th>
@@ -37,6 +38,40 @@
                 <tbody></tbody>
             </table>
         </div>
+    </div>
+    <div class="card">
+        <h1 style="margin-top:24px;">Payroll Cutoff Summary</h1>
+
+        <div class="card">
+            <div class="row">
+                <div>
+                    <div class="label">Payroll Date (must be 15 or 30)</div>
+                    <input id="payrollDateInput" type="date"
+                           style="padding:10px;width:220px;border:1px solid var(--border);border-radius:10px;">
+                </div>
+            </div>
+
+            <div class="actions" style="margin-top:12px;">
+                <button id="btnLoadCutoff" class="btn primary">Load Cutoff Summary</button>
+            </div>
+
+            <div id="cutoffMessage" class="message"></div>
+
+            <div style="margin-top:16px; overflow:auto;">
+                <table id="cutoffTbl" style="width:100%; border-collapse:collapse;">
+                    <thead>
+                    <tr style="text-align:left; color: var(--muted);">
+                        <th style="padding:10px; border-bottom:1px solid var(--border);">Employee</th>
+                        <th style="padding:10px; border-bottom:1px solid var(--border);">Total Hours</th>
+                        <th style="padding:10px; border-bottom:1px solid var(--border);">Days Time In</th>
+                        <th style="padding:10px; border-bottom:1px solid var(--border);">Days Time Out</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 </div>
 
