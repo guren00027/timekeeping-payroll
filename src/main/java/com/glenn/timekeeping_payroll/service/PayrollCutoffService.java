@@ -6,7 +6,6 @@ import com.glenn.timekeeping_payroll.repository.AttendanceRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.*;
 
 @Service
@@ -48,7 +47,18 @@ public class PayrollCutoffService {
 
         for (Attendance a : rows) {
             String username = a.getUser().getUsername();
-            map.putIfAbsent(username, new Acc());
+
+            var pg = a.getUser().getPayGrade();
+            String gradeCode = (pg != null) ? pg.getCode() : "N/A";
+            String payType = (pg != null) ? pg.getPayType().name() : "N/A";
+
+            double rate = 0.0;
+            if (pg != null) {
+                if ("HOURLY".equals(payType) && pg.getHourlyRate() != null) rate = pg.getHourlyRate();
+                if ("MONTHLY".equals(payType) && pg.getMonthlyRate() != null) rate = pg.getMonthlyRate();
+            }
+
+            map.putIfAbsent(username, new Acc(gradeCode, payType, rate));
 
             Acc acc = map.get(username);
             long mins = calculator.computeWorkedMinutes(a.getTimeIn(), a.getTimeOut());
@@ -60,20 +70,46 @@ public class PayrollCutoffService {
 
         return map.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
-                .map(e -> new PayrollCutoffSummaryDto(
-                        e.getKey(),
-                        e.getValue().totalMinutes,
-                        e.getValue().totalMinutes / 60.0,
-                        e.getValue().daysWithTimeIn,
-                        e.getValue().daysWithTimeOut
-                ))
+                .map(e -> {
+                    Acc acc = e.getValue();
+                    double totalHours = acc.totalMinutes / 60.0;
+
+                    double regularPay;
+                    if ("MONTHLY".equals(acc.payType)) {
+                        regularPay = acc.rate / 2.0;           // semi-monthly base
+                    } else {
+                        regularPay = totalHours * acc.rate;    // hourly pay
+                    }
+
+                    return new PayrollCutoffSummaryDto(
+                            e.getKey(),
+                            acc.payGrade,
+                            acc.payType,
+                            acc.rate,
+                            acc.totalMinutes,
+                            totalHours,
+                            acc.daysWithTimeIn,
+                            acc.daysWithTimeOut,
+                            regularPay
+                    );
+                })
                 .toList();
     }
 
     private static class Acc {
+        String payGrade;
+        String payType; // HOURLY or MONTHLY
+        double rate;    // hourlyRate if HOURLY, monthlyRate if MONTHLY
+
         long totalMinutes = 0;
         int daysWithTimeIn = 0;
         int daysWithTimeOut = 0;
+
+        Acc(String payGrade, String payType, double rate) {
+            this.payGrade = payGrade;
+            this.payType = payType;
+            this.rate = rate;
+        }
     }
 
     public record CutoffRange(LocalDate start, LocalDate end) {}

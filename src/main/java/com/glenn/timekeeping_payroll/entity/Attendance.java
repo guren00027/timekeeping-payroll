@@ -31,4 +31,10 @@ public class Attendance {
 
     @Column(name = "time_out")
     private LocalDateTime timeOut;
+
+    @Column(nullable = false)
+    private long otMinutes = 0;
+
+    @Column(nullable = false)
+    private boolean otApproved = false;
 }
